@@ -9,7 +9,10 @@
                 {{CartItem.title}} - ${{CartItem.price}} - {{CartItem.quantity}}
             </li>
         </ul>
-        <div v-if="totalPrice>0">Total: {{totalPrice}}</div>
+        <div v-if="totalPrice>=0">Total: {{totalPrice}}</div>
+        <button @click="checkout">
+            Check Out
+        </button>
     </div>
 </template>
 
@@ -21,7 +24,12 @@
             },
             totalPrice(){
                 return this.$store.getters.getCartTotalPrice
-            }
+            },
         },
+        methods:{
+            checkout(){
+                this.$store.dispatch('checkout')
+            }
+        }
     }
 </script>

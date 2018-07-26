@@ -11,7 +11,12 @@
                 v-for="product in products" 
                 v-bind:key="product.id"
             >
-                <button @click="addProductToCart(product)">Add to Cart</button>
+                <button 
+                    @click="addProductToCart(product)"
+                    :disabled="!productInStock(product)"
+                >
+                    Add to Cart
+                </button>
                 {{product.title}} - {{product.price}} - {{product.inventory}}
             </li>
         </ul>
@@ -32,10 +37,10 @@
         },
         computed: {
             products(){
-                return this.$store.getters.availableProducts
+                return this.$store.state.products
             },
-            totalPrice(){
-                return this.$store.getters.getCartTotalPrice
+            productInStock(){
+                return this.$store.getters.productInStock
             }
         },
         created(){ //run right after the instance is created (life-cycle)
