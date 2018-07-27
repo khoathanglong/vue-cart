@@ -9,27 +9,40 @@
                 {{CartItem.title}} - ${{CartItem.price}} - {{CartItem.quantity}}
             </li>
         </ul>
-        <div v-if="totalPrice>=0">Total: {{totalPrice}}</div>
+        <div v-if="totalPrice>=0">Total: ${{totalPrice}}</div>
         <button @click="checkout">
             Check Out
         </button>
+        <div v-show="checkoutStatus">{{checkoutStatus}}</div>
     </div>
 </template>
 
 <script>
+    import {mapGetters, mapActions} from 'vuex'
+
     export default {
         computed:{
-            CartItems(){
-                return this.$store.getters.getCartItems
-            },
-            totalPrice(){
-                return this.$store.getters.getCartTotalPrice
-            },
+            ...mapGetters('cart',{
+                CartItems:'getCartItems',
+                totalPrice:'getCartTotalPrice',
+                checkoutStatus:'checkoutStatus'
+            }),
+
+
+            // CartItems(){
+            //     return this.$store.getters.getCartItems
+            // },
+            // totalPrice(){
+            //     return this.$store.getters.getCartTotalPrice
+            // },
+            // checkoutStatus(){
+            //     return this.$store.getters.checkoutStatus
+            // }
         },
         methods:{
-            checkout(){
-                this.$store.dispatch('checkout')
-            }
+            ...mapActions('cart',{
+                checkout:'checkout'
+            })
         }
     }
 </script>

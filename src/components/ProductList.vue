@@ -17,13 +17,14 @@
                 >
                     Add to Cart
                 </button>
-                {{product.title}} - {{product.price}} - {{product.inventory}}
+                {{product.title}} - ${{product.price}} - {{product.inventory}}
             </li>
         </ul>
     </div>
 </template>
 
 <script>
+    import {mapState,mapActions,mapGetters} from 'vuex'
     export default {
         data(){
             return {
@@ -31,21 +32,24 @@
             }
         },
         methods:{
-            addProductToCart(product){
-                this.$store.dispatch('addProductToCart',product)
-            }
+            ...mapActions('cart',{
+                addProductToCart:"addProductToCart",
+            }),
+            ...mapActions('products',{
+                fetchProducts:"fetchProducts"
+            })
         },
         computed: {
-            products(){
-                return this.$store.state.products
-            },
-            productInStock(){
-                return this.$store.getters.productInStock
-            }
+            ...mapGetters('products',{
+                productInStock:'productInStock'
+            }),
+            ...mapState({
+                products:state=>state.products.items
+            })
         },
         created(){ //run right after the instance is created (life-cycle)
            this.loading=true;
-           this.$store.dispatch('fetchProducts')
+           this.fetchProducts()
            .then(()=>{this.loading=false})
         }
     }

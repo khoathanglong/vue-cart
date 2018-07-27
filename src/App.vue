@@ -11,7 +11,7 @@
 <script>
 import ProductList from "@/components/ProductList";
 import ShoppingCart from "@/components/ShoppingCart"
-import store from "./store"
+import store from "@/store/store"
 export default {
   name: 'App',
   components:{
